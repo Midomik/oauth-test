@@ -341,11 +341,17 @@ export const Modal = ({ className, variant, modal = 'default' }) => {
         >
           {({ isActive }) => <CustomersIcon isActive={isActive} />}
         </NavLink>
+        <NavLink
+          to="/user-friends"
+          className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white hover:bg-green-accent-0.1"
+        >
+          <div className="w-full h-full bg-green-accent flex items-center justify-center rounded-full">Feeds</div>
+        </NavLink>
       </div>
 
       <button
         onClick={() => dispatch(logOutThunk())}
-        className="absolute bottom-[20px] left-[25%] flex h-[44px] w-[44px] items-center justify-center rounded-full bg-green-accent hover:bg-[#59b17a99]"
+        className="absolute bottom-[60px] left-[25%] flex h-[44px] w-[44px] items-center justify-center rounded-full bg-green-accent hover:bg-[#59b17a99]"
       >
         <LogOutIcon />
       </button>

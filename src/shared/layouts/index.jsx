@@ -115,6 +115,12 @@ export const SharedLayout = ({ children }) => {
           >
             {({ isActive }) => <CustomersIcon isActive={isActive} />}
           </NavLink>
+          <NavLink
+            to="/user-friends"
+            className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white hover:bg-green-accent-0.1"
+          >
+            <div className="w-full h-full bg-green-accent flex items-center justify-center rounded-full">Feeds</div>
+          </NavLink>
         </aside>
 
         <main className="tablet:px[32px] w-full mobile-sm:px-[20px] mobile-sm:pr-0  desktop:px-[40px]">

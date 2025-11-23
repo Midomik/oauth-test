@@ -7,6 +7,7 @@ import {
   Dashboard,
   Login,
   NotFound,
+  UserFriends,
 } from '../pages';
 import { PrivateRoute } from '../app/providers/PrivateRoute';
 import { PublicRoute } from '../app/providers/PublicRoute';
@@ -32,6 +33,10 @@ export const Router = () => {
         <Route
           path="suppliers"
           element={<PrivateRoute component={<AllSuppliers />} />}
+        />
+        <Route
+          path="user-friends"
+          element={<PrivateRoute component={<UserFriends />} />}
         />
       </Route>
 
