@@ -21,7 +21,6 @@ import {
 import { BurgerMenu } from '../assets/icons/BurgerMenu';
 import { selectisOpenSideHeaderModal } from '../../redux/dashboard/selectors';
 import { setIsOpenSideHeaderModal } from '../../redux/dashboard/reducer';
-import { useEffect } from 'react';
 import { selectUserData } from '../../redux/auth/selectors';
 
 export const SharedLayout = ({ children }) => {
@@ -29,10 +28,6 @@ export const SharedLayout = ({ children }) => {
   const location = useLocation();
 
   const userData = useSelector(selectUserData);
-
-  useEffect(() => {
-    dispatch(refreshThunk());
-  }, [dispatch]);
 
   const isOpenAddNewProductModal = useSelector(selectIsOpenAddNewProductModal);
   const isOpenEditProductModal = useSelector(selectIsOpenEditProductModal);

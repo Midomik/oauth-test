@@ -1,39 +1,52 @@
 import { useEffect, useState } from "react";
 import { Button } from "../../shared/ui/Button";
+import { instance } from "../../redux/API/axios";
+import { useDispatch } from "react-redux";
+import { refreshThunk } from '../../redux/auth/operations';
 
-const API_BASE =
-  (import.meta.env.VITE_API_BASE_URL || `http://${window.location.hostname}:3000/api`).replace(/\/$/, '');
+
 const FACEBOOK_REDIRECT_URI =
   import.meta.env.VITE_FACEBOOK_REDIRECT_URI || `http://${window.location.hostname}:3000/api/callback`;
 
 export const UserFriends = () => {
+
     const requestAccesCode = async () => {
-        const redirectUri = FACEBOOK_REDIRECT_URI;
-        const params = new URLSearchParams({
-            response_type: 'code',
-            client_id: '1393923432300044',
-            redirect_uri: redirectUri,
-            scope: 'user_friends',
-        });
+        try {
+            const { data } = await instance.post('/callback/start');
+            const { state } = data;
 
-        const authUrl = `https://www.facebook.com/dialog/oauth?${params.toString()}`;
-        const width = 600;
-        const height = 700;
+            const redirectUri = FACEBOOK_REDIRECT_URI;
+            const params = new URLSearchParams({
+                response_type: 'code',
+                client_id: '1393923432300044',
+                redirect_uri: redirectUri,
+                scope: 'user_friends',
+                state,
+            });
 
-        const left = window.screenX + (window.outerWidth - width) / 2;
-        const top = window.screenY + (window.outerHeight - height) / 2;
+            const authUrl = `https://www.facebook.com/dialog/oauth?${params.toString()}`;
+            const width = 600;
+            const height = 700;
 
-        window.open(
-            authUrl,
-            'facebookLogin',
-            `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=yes,status=no`
-        );
+            const left = window.screenX + (window.outerWidth - width) / 2;
+            const top = window.screenY + (window.outerHeight - height) / 2;
+
+            window.open(
+                authUrl,
+                'facebookLogin',
+                `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=yes,status=no`
+            );
+        } catch (error) {
+            console.error('Failed to start Facebook login', error);
+        }
     };
 
     const [userName, setUserName] = useState('');
     const [friends, setFriends] = useState([]);
     const [totalFriends, setTotalFriends] = useState(0);
     const [error, setError] = useState('');
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (window.opener && !window.opener.closed) {
@@ -44,11 +57,8 @@ export const UserFriends = () => {
 
     const fetchProfile = async () => {
         try {
-            const response = await fetch(`${API_BASE}/callback/profile`);
-            if (!response.ok) {
-                throw new Error('Failed to load profile');
-            }
-            const data = await response.json();
+            const response = await instance.get('/callback/profile');
+            const data = response.data;
             console.log('profile data:', data);
             if (data && data.name) {
                 setUserName(data.name);
@@ -61,11 +71,8 @@ export const UserFriends = () => {
 
     const fetchFriends = async () => {
         try {
-            const response = await fetch(`${API_BASE}/callback/friends`);
-            if (!response.ok) {
-                throw new Error('Failed to load friends');
-            }
-            const data = await response.json();
+            const response = await instance.get('/callback/friends');
+            const data = response.data;
             console.log('friends data:', data);
             if (data && Array.isArray(data.data)) {
                 setFriends(data.data);
@@ -76,6 +83,10 @@ export const UserFriends = () => {
             setError('Unable to load friends');
         }
     };
+
+    useEffect(() => {
+        dispatch(refreshThunk());
+    }, [dispatch]);
 
     useEffect(() => {
         fetchProfile();
