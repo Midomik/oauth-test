@@ -94,24 +94,75 @@ export const UserFriends = () => {
     }, []);
 
     return (
-        <div>
-            <Button type="button" className="bg-blue text-white mt-[50px] mb-[50px]" onClick={requestAccesCode}>Fetch Friends from Facebook</Button>
-            {userName && <div>
-                {error && <p>{error}</p>}
-                <p>Hello {userName && <span>{userName}</span>} !!!</p>
+        <div className="mb-[20px] mobile-sm:pr-[20px] tablet:pr-[32px] desktop:pr-[40px]">
+            <div className="flex mobile-sm:flex-col tablet:flex-row mobile-sm:items-start tablet:items-center justify-between mobile-sm:mt-[40px] tablet:mt-[50px] gap-[16px]">
+                <div>
+                    <h2 className="mb-[4px] font-[600] leading-[117%] mobile-sm:text-[20px] tablet:text-[24px]">
+                        Facebook friends
+                    </h2>
+                    <p className="font-[400] text-dark-0.4">
+                        {userName
+                            ? `Connected as ${userName}.`
+                            : 'Connect your Facebook account to see friends who use this app.'}
+                    </p>
+                </div>
+                <Button
+                    type="button"
+                    className="bg-blue text-white mt-[12px] tablet:mt-0"
+                    onClick={requestAccesCode}
+                >
+                    Fetch Friends from Facebook
+                </Button>
+            </div>
 
-                <h2>User Friends</h2>
-                <p>Total friends count: {totalFriends? totalFriends : '0'}</p>
-                {friends.length > 0 &&
-                    <>
-                        <ul>
-                            {friends.map((friend) => (
-                                <li key={friend.id}>{friend.name}</li>
-                            ))}
-                        </ul>
-                    </>
-                }
-            </div>}
+            {error && (
+                <p className="mt-[12px] text-sm text-red-500">
+                    {error}
+                </p>
+            )}
+
+            {userName && (
+                <div className="mt-[24px] rounded-[20px] border border-dark-0.1 bg-white p-[24px]">
+                    <div className="flex flex-col tablet:flex-row tablet:items-center justify-between gap-[8px] mb-[16px]">
+                        <div>
+                            <p className="text-xs text-dark-0.4 mb-[4px]">Connected profile</p>
+                            <p className="text-[18px] font-[600]">{userName}</p>
+                        </div>
+                        <p className="text-sm text-dark-0.4">
+                            Total friends using app:{' '}
+                            <span className="font-[600]">{totalFriends || 0}</span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p className="mb-[8px] text-sm text-dark-0.4">Friends list</p>
+                        {friends.length > 0 ? (
+                            <ul className="rounded-[16px] border border-dark-0.1 divide-y divide-dark-0.1">
+                                {friends.map((friend) => (
+                                    <li
+                                        key={friend.id}
+                                        className="px-[16px] py-[10px] flex items-center gap-[12px]"
+                                    >
+                                        {friend.picture?.data?.url && (
+                                            <img
+                                                src={friend.picture.data.url}
+                                                alt={friend.name}
+                                                className="h-[32px] w-[32px] rounded-full object-cover"
+                                            />
+                                        )}
+                                        <span className="font-[500]">{friend.name}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-sm text-dark-0.4">
+                                Facebook may not return all friend details because of privacy rules,
+                                even if the total count is greater than zero.
+                            </p>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

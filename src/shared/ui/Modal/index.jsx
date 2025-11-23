@@ -34,6 +34,7 @@ import { CustomersIcon } from '../../assets/icons/CustomersIcon';
 import { logOutThunk } from '../../../redux/auth/operations';
 import { LogOutIcon } from '../../assets/icons/LogOutIcon';
 import { closeHeaderModal } from '../../../redux/dashboard/reducer';
+import { PeopleIcon } from '../../assets/icons/PeopleIcon';
 
 export const Modal = ({ className, variant, modal = 'default' }) => {
   const dispatch = useDispatch();
@@ -342,10 +343,11 @@ export const Modal = ({ className, variant, modal = 'default' }) => {
           {({ isActive }) => <CustomersIcon isActive={isActive} />}
         </NavLink>
         <NavLink
+          onClick={() => closeModal()}
           to="/user-friends"
           className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white hover:bg-green-accent-0.1"
         >
-          <div className="w-full h-full bg-green-accent flex items-center justify-center rounded-full">Feeds</div>
+          {({ isActive }) => <PeopleIcon isActive={isActive} />}
         </NavLink>
       </div>
 

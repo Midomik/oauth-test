@@ -7,8 +7,9 @@ import { SuppliersIcon } from '../assets/icons/SuppliersIcon';
 import { ProductsIcon } from '../assets/icons/ProductsIcon';
 import { OrdersIcon } from '../assets/icons/OrdersIcon';
 import { DashboardIcon } from '../assets/icons/DashboardIcon';
+import { PeopleIcon } from '../assets/icons/PeopleIcon';
 import { useDispatch, useSelector } from 'react-redux';
-import { logOutThunk, refreshThunk } from '../../redux/auth/operations';
+import { logOutThunk } from '../../redux/auth/operations';
 import { Modal } from '../ui/Modal';
 import {
   selectIsOpenAddNewProductModal,
@@ -114,7 +115,7 @@ export const SharedLayout = ({ children }) => {
             to="/user-friends"
             className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white hover:bg-green-accent-0.1"
           >
-            <div className="w-full h-full bg-green-accent flex items-center justify-center rounded-full">Feeds</div>
+            {({ isActive }) => <PeopleIcon isActive={isActive} />}
           </NavLink>
         </aside>
 
