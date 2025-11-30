@@ -129,7 +129,7 @@ export const UserFriends = () => {
                             <p className="text-[18px] font-[600]">{userName}</p>
                         </div>
                         <p className="text-sm text-dark-0.4">
-                            Total friends using app:{' '}
+                            Total Facebook friends:{' '}
                             <span className="font-[600]">{totalFriends || 0}</span>
                         </p>
                     </div>
